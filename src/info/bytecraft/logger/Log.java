@@ -9,6 +9,7 @@ import java.util.Map;
  * 
  * Log uses an instance of {@link SimpleLogger} by default.
  * @see {@link AbstractLogger}
+ * @author Robert Catron
  */
 public class Log
 {
@@ -37,6 +38,9 @@ public class Log
     }
     
     
+    /**
+     * @return The default logger that is currently set
+     */
     public static AbstractLogger getDefaultLogger()
     {
         return logger;
@@ -63,9 +67,8 @@ public class Log
     }
     
     /**
-     * Logs a message with a {@link LogLevel} of INFO
-     * Useful for general messages and use in production
-     * @param message
+     * Logs a message to the default logger at {@link LogLevel.INFO}
+     * @param message 
      */
     public static void info(String message) 
     {
@@ -73,7 +76,7 @@ public class Log
     }
     
     /**
-     * Logs an error message
+     * Logs a message to the default logger at {@link LogLevel.WARN}
      * @param message
      */
     public static void warn(String message) 
@@ -82,7 +85,7 @@ public class Log
     }
     
     /**
-     * Logs a debugging message
+     * Logs a message to the default logger at {@link LogLevel.WARN}
      * @param message
      */
     public static void debug(String message) 
@@ -90,21 +93,38 @@ public class Log
         logger.log(LogLevel.DEBUG, message);
     }
     
+    /**
+     * Logs a message to the default logger at {@link LogLevel.SEVERE}
+     * @param message
+     */
     public static void severe(String message)
     {
         logger.log(LogLevel.SEVERE, message);
     }
     
+    /**
+     * Logs a message to the default logger
+     * @param level - The log level 
+     * @param message
+     */
     public static void log(LogLevel level, String message)
     {
         logger.log(level, message);
     }
     
+    /**
+     * Currently not implemented
+     * @param level
+     */
     public static void setLogLevel(LogLevel level)
     {
         Log.logLevel = level;
     }
     
+    /**
+     * Currently not implemented
+     * @return
+     */
     public static LogLevel getLogLevel()
     {
         return Log.logLevel;
