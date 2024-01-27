@@ -20,8 +20,7 @@ public class Log
     //A map of loggers to use with logAll(String);
     private static Map<Integer, AbstractLogger> loggerList = new HashMap<Integer, AbstractLogger>();
     
-    //Currently unused
-    //private static LogLevel logLevel = LogLevel.INFO;
+    private static LogLevel logLevel = LogLevel.INFO;
     
     static {
         setDefaultLogger(new SimpleLogger());
