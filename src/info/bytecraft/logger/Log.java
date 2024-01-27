@@ -1,30 +1,91 @@
 package info.bytecraft.logger;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * The master class for the sjLogger library
+ * 
+ * Log uses an instance of {@link SimpleLogger} by default.
+ * @see {@link AbstractLogger}
+ */
 public class Log
 {
-    private static AbstractLogger logger = new SimpleLogger();
+    private Log() {}
     
-    private static LogLevel logLevel = LogLevel.INFO;
+    //Default logger
+    private static AbstractLogger logger;
     
-    public static void setLogger(AbstractLogger logger) {
-        Log.logger = logger;
+    //A map of loggers to use with logAll(String);
+    private static Map<Integer, AbstractLogger> loggerList = new HashMap<Integer, AbstractLogger>();
+    
+    //Currently unused
+    //private static LogLevel logLevel = LogLevel.INFO;
+    
+    static {
+        setDefaultLogger(new SimpleLogger());
     }
     
-    public static AbstractLogger getLogger()
+    /**
+     * Set your own logger to use
+     * @param logger
+     */
+    public static void setDefaultLogger(AbstractLogger logger) 
+    {
+        Log.logger = logger;
+        Log.addLogger(logger);
+    }
+    
+    
+    public static AbstractLogger getDefaultLogger()
     {
         return logger;
     }
     
+    public static void addLogger(AbstractLogger logger) 
+    {
+        if(!loggerList.containsValue(logger))
+        loggerList.put(loggerList.size()+1, logger);
+    }
+    
+    public static void removeLogger(AbstractLogger logger)
+    {
+        for(int i = 0; i < loggerList.size(); i++) {
+            if(loggerList.get(i) == logger) {
+                loggerList.remove(i);
+            }
+        }
+    }
+    
+    public static Collection<AbstractLogger> getLoggers()
+    {
+        return loggerList.values();
+    }
+    
+    /**
+     * Logs a message with a {@link LogLevel} of INFO
+     * Useful for general messages and use in production
+     * @param message
+     */
     public static void info(String message) 
     {
         logger.log(LogLevel.INFO, message);
     }
     
+    /**
+     * Logs an error message
+     * @param message
+     */
     public static void warn(String message) 
     {
         logger.log(LogLevel.WARNING, message);
     }
     
+    /**
+     * Logs a debugging message
+     * @param message
+     */
     public static void debug(String message) 
     {
         logger.log(LogLevel.DEBUG, message);
